@@ -6,6 +6,7 @@ use App\Models\SolicitudAfiliacion;
 use Illuminate\Http\Request;
 use App\Models\Ciudad;
 use App\Models\Departamento;
+use App\Models\RepresentanteLegal;
 
 class SolicitudAfiliacionController extends Controller
 {
@@ -13,10 +14,13 @@ class SolicitudAfiliacionController extends Controller
     {
         $ciudades       = Ciudad::all();
         $departamentos  = Departamento::all();
+        $representantes = RepresentanteLegal::all();  // <— aquí!
+
 
         return view('solicitud.create', compact(
             'ciudades',
-            'departamentos'
+            'departamentos',
+            'representantes'
         ));
     }
 

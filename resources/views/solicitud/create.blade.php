@@ -186,15 +186,25 @@
                                 <!-- Representante Legal -->
                                 <div class="relative">
                                     <label for="representante_legal" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
-                                        Representante Legal
+                                      <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
+                                      Representante Legal
                                     </label>
-                                    <select id="representante_legal" name="representante_legal" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
-                                        <option value="">Seleccione...</option>
-                                        <option value="Johan Ordoñez" @if(old('representante_legal')=='Johan Ordoñez') selected @endif>Johan Ordoñez</option>
+                                    <select id="representante_legal" name="representante_legal" required
+                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                      <option value="">Seleccione...</option>
+                                      @foreach($representantes as $r)
+                                        <option value="{{ $r->id }}" @selected(old('representante_legal') == $r->id)>
+                                          {{ $r->nombre }}
+                                        </option>
+                                      @endforeach
                                     </select>
-                                    @error('representante_legal')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
+                                    @error('representante_legal')
+                                      <p class="mt-2 text-sm text-red-600 flex items-center">
+                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}
+                                      </p>
+                                    @enderror
+                                  </div>
+                                  
 
                                 <!-- Teléfono -->
                                 <div class="relative">

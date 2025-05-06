@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CiudadSeeder::class,
             DepartamentoSeeder::class,
+            RepresentanteLegalSeeder::class,
         ]);
 
         // Usuario de prueba
