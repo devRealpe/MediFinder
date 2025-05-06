@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\SolicitudAfiliacion;
 use Illuminate\Http\Request;
+use App\Models\Ciudad;
+use App\Models\Departamento;
 
 class SolicitudAfiliacionController extends Controller
 {
     public function create()
     {
-        return view('solicitud.create');
+        $ciudades       = Ciudad::all();
+        $departamentos  = Departamento::all();
+
+        return view('solicitud.create', compact(
+            'ciudades',
+            'departamentos'
+        ));
     }
 
     public function store(Request $request)

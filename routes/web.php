@@ -1,14 +1,23 @@
 <?php
 
-use App\Http\Controllers\AfiliacionController;
-use App\Http\Controllers\SolicitudAfiliacionController;
-
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SolicitudAfiliacionController;
+use App\Http\Controllers\FiltroController;
 
-Route::get('/', function () {
-    return view('solicitud.create');
+// Ruta raíz: muestra el formulario pasando datos necesarios
+Route::get('/', [SolicitudAfiliacionController::class, 'create'])
+    ->name('solicitud.create');
+
+// Grupo de rutas para la solicitud de afiliación
+Route::prefix('solicitud-afiliacion')->name('solicitud.')->group(function () {
+    // Mostrar formulario
+    Route::get('/', [SolicitudAfiliacionController::class, 'create'])
+        ->name('create');
+
+    // Procesar envío
+    Route::post('/', [SolicitudAfiliacionController::class, 'store'])
+        ->name('store');
 });
 
-
-Route::get('/solicitud-afiliacion', [SolicitudAfiliacionController::class, 'create'])->name('solicitud.create');
-Route::post('/solicitud-afiliacion', [SolicitudAfiliacionController::class, 'store'])->name('solicitud.store');
+// Endpoint AJAX para cargar departamentos según ciudad
+Route::get('api/ciudad/{id}/departamentos', [FiltroController::class, 'departamentosPorCiudad']);

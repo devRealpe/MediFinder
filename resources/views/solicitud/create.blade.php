@@ -120,7 +120,7 @@
                                     @error('nombre_farmacia')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
-                                <!-- Ciudad -->
+                                  <!-- Ciudad -->
                                 <div class="relative">
                                     <label for="ciudad" class="block text-sm font-semibold text-[#004D40] mb-2">
                                         <i class="fas fa-city mr-2 text-[#00796B]"></i>
@@ -128,10 +128,12 @@
                                     </label>
                                     <select id="ciudad" name="ciudad" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
                                         <option value="">Seleccione ciudad...</option>
-                                        <option value="Pasto" @if(old('ciudad')=='Pasto') selected @endif>Pasto</option>
-                                        <option value="Ipiales" @if(old('ciudad')=='Ipiales') selected @endif>Ipiales</option>
-                                        <option value="Tumaco" @if(old('ciudad')=='Tumaco') selected @endif>Tumaco</option>
-                                    </select>
+                                        @foreach($ciudades as $c)
+                                          <option value="{{ $c->id }}" @selected(old('ciudad') == $c->id)>
+                                            {{ $c->nombre }}
+                                          </option>
+                                        @endforeach
+                                      </select>
                                     @error('ciudad')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
@@ -168,17 +170,17 @@
                                     @error('direccion')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
-                                <!-- Departamento -->
+                                    <!-- Departamento -->
                                 <div class="relative">
                                     <label for="departamento" class="block text-sm font-semibold text-[#004D40] mb-2">
                                         <i class="fas fa-map-marked-alt mr-2 text-[#00796B]"></i>
                                         Departamento
                                     </label>
-                                    <select id="departamento" name="departamento" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
-                                        <option value="">Seleccione...</option>
-                                        <option value="Nariño" @if(old('departamento')=='Nariño') selected @endif>Nariño</option>
+                                    <select id="departamento" name="departamento"
+                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                        <option value="">Seleccione departamento...</option>
+                                        {{-- Se poblará con JS --}}
                                     </select>
-                                    @error('departamento')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
                                 <!-- Representante Legal -->
@@ -230,5 +232,28 @@
             </div>
         </div>
     </main>
+
+    <script>
+        document.getElementById('ciudad').addEventListener('change', function() {
+          const ciudadId = this.value;
+          const deptoSelect = document.getElementById('departamento');
+          deptoSelect.innerHTML = '<option value="">Cargando...</option>';
+          fetch(`/api/ciudad/${ciudadId}/departamentos`)
+            .then(res => res.json())
+            .then(departamentos => {
+              deptoSelect.innerHTML = '<option value="">Seleccione departamento...</option>';
+              departamentos.forEach(d => {
+                let opt = document.createElement('option');
+                opt.value = d.id;
+                opt.textContent = d.nombre;
+                deptoSelect.appendChild(opt);
+              });
+            })
+            .catch(() => {
+              deptoSelect.innerHTML = '<option value="">Error cargando</option>';
+            });
+        });
+      </script>
+      
 </body>
 </html>
