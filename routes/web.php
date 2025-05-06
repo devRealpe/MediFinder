@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AfiliacionController;
+use App\Http\Controllers\SolicitudAfiliacionController;
 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('solicitud.create');
 });
 
-Route::get('/afiliaciones/create', [AfiliacionController::class, 'create'])->name('afiliaciones.create');
-Route::post('/afiliaciones', [AfiliacionController::class, 'store'])->name('afiliaciones.store');
+
+Route::get('/solicitud-afiliacion', [SolicitudAfiliacionController::class, 'create'])->name('solicitud.create');
+Route::post('/solicitud-afiliacion', [SolicitudAfiliacionController::class, 'store'])->name('solicitud.store');
