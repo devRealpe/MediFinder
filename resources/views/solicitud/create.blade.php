@@ -16,8 +16,11 @@
             .input-focus {
                 @apply ring-2 ring-[#00796B] border-transparent;
             }
-            .nav-transition {
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            .bg-select-arrow {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%236B7280' viewBox='0 0 20 20'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 0.75rem center;
+                background-size: 1.5em;
             }
         }
     </style>
@@ -32,8 +35,7 @@
             <span class="text-white font-bold text-xl">MediFinder</span>
         </div>
         <div class="fixed inset-0 bg-black/50 z-40" x-show="isOpen" @click="isOpen = false" x-cloak></div>
-        <nav class="fixed left-0 top-0 h-full w-64 bg-white shadow-2xl nav-transition z-50" 
-             :class="isOpen ? 'translate-x-0' : '-translate-x-full'" x-cloak>
+        <nav class="fixed left-0 top-0 h-full w-64 bg-white shadow-2xl nav-transition z-50" :class="isOpen ? 'translate-x-0' : '-translate-x-full'" x-cloak>
             <div class="p-4 border-b-2 border-[#B2DFDB]">
                 <div class="flex items-center space-x-3">
                     <i class="fas fa-clinic-medical text-3xl text-[#00796B]"></i>
@@ -87,6 +89,20 @@
                 
                 <!-- Formulario -->
                 <div class="p-8">
+                    @if(session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if($errors->any())
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                            <ul class="list-disc list-inside">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{ route('solicitud.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                         @csrf
 
@@ -99,45 +115,34 @@
                                         <i class="fas fa-prescription-bottle mr-2 text-[#00796B]"></i>
                                         Nombre de la farmacia
                                     </label>
-                                    <input type="text" id="nombre_farmacia" name="nombre_farmacia" value="{{ old('nombre_farmacia') }}"
+                                    <input type="text" id="nombre_farmacia" name="nombre_farmacia" value="{{ old('nombre_farmacia') }}" required
                                         class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('nombre_farmacia')
-                                        <p class="mt-2 text-sm text-red-600 flex items-center">
-                                            <i class="fas fa-exclamation-circle mr-2"></i>
-                                            {{ $message }}
-                                        </p>
-                                    @enderror
+                                    @error('nombre_farmacia')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
-    <!-- Ciudad -->
-    <div class="relative">
-      <label for="ciudad" class="block text-sm font-semibold text-[#004D40] mb-2">
-          <i class="fas fa-city mr-2 text-[#00796B]"></i>
-          Ciudad
-      </label>
-      <select id="ciudad" name="ciudad"
-          class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow">
-          <option value="">Seleccione ciudad...</option>
-          <option value="Pasto" @if(old('ciudad')=='Pasto') selected @endif>Pasto</option>
-          <option value="Ipiales" @if(old('ciudad')=='Ipiales') selected @endif>Ipiales</option>
-          <option value="Tumaco" @if(old('ciudad')=='Tumaco') selected @endif>Tumaco</option>
-      </select>
-      @error('ciudad')
-          <p class="mt-2 text-sm text-red-600 flex items-center">
-              <i class="fas fa-exclamation-circle mr-2"></i>
-              {{ $message }}
-          </p>
-      @enderror
-  </div>
+                                <!-- Ciudad -->
+                                <div class="relative">
+                                    <label for="ciudad" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                        <i class="fas fa-city mr-2 text-[#00796B]"></i>
+                                        Ciudad
+                                    </label>
+                                    <select id="ciudad" name="ciudad" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                        <option value="">Seleccione ciudad...</option>
+                                        <option value="Pasto" @if(old('ciudad')=='Pasto') selected @endif>Pasto</option>
+                                        <option value="Ipiales" @if(old('ciudad')=='Ipiales') selected @endif>Ipiales</option>
+                                        <option value="Tumaco" @if(old('ciudad')=='Tumaco') selected @endif>Tumaco</option>
+                                    </select>
+                                    @error('ciudad')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                </div>
 
-                                  <!-- NIT -->
-                                  <div class="relative">
+                                <!-- NIT -->
+                                <div class="relative">
                                     <label for="nit" class="block text-sm font-semibold text-[#004D40] mb-2">
                                         <i class="fas fa-fingerprint mr-2 text-[#00796B]"></i>
                                         NIT
                                     </label>
-                                    <input type="text" id="nit" name="nit" value="{{ old('nit') }}"
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    <input type="text" id="nit" name="nit" value="{{ old('nit') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    @error('nit')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
                                 <!-- Email -->
@@ -146,8 +151,8 @@
                                         <i class="fas fa-envelope-open-text mr-2 text-[#00796B]"></i>
                                         Correo electrónico
                                     </label>
-                                    <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    <input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    @error('email')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
                             </div>
 
@@ -159,42 +164,35 @@
                                         <i class="fas fa-map-marker-alt mr-2 text-[#00796B]"></i>
                                         Dirección
                                     </label>
-                                    <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}"
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    @error('direccion')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
 
                                 <!-- Departamento -->
                                 <div class="relative">
-                                  <label for="departamento" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                      <i class="fas fa-map-marked-alt mr-2 text-[#00796B]"></i>
-                                      Departamento
-                                  </label>
-                                  <select id="departamento" name="departamento"
-                                      class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow">
-                                      <option value="">Seleccione...</option>
-                                      <option value="Nariño" @if(old('departamento')=='Nariño') selected @endif>Nariño</option>
-                                  </select>
-                              </div>
+                                    <label for="departamento" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                        <i class="fas fa-map-marked-alt mr-2 text-[#00796B]"></i>
+                                        Departamento
+                                    </label>
+                                    <select id="departamento" name="departamento" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                        <option value="">Seleccione...</option>
+                                        <option value="Nariño" @if(old('departamento')=='Nariño') selected @endif>Nariño</option>
+                                    </select>
+                                    @error('departamento')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                </div>
 
-                                                              <!-- Representante Legal -->
-                                                              <div class="relative">
-                                                                <label for="representante_legal" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                                                    <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
-                                                                    Representante Legal
-                                                                </label>
-                                                                <select id="representante_legal" name="representante_legal"
-                                                                    class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow">
-                                                                    <option value="">Seleccione...</option>
-                                                                    <option value="Johan Ordoñez" @if(old('representante_legal')=='Johan Ordoñez') selected @endif>Johan Ordoñez</option>
-                                                                    <!-- Agregar más opciones según necesidad -->
-                                                                </select>
-                                                                @error('representante_legal')
-                                                                    <p class="mt-2 text-sm text-red-600 flex items-center">
-                                                                        <i class="fas fa-exclamation-circle mr-2"></i>
-                                                                        {{ $message }}
-                                                                    </p>
-                                                                @enderror
-                                                            </div>
+                                <!-- Representante Legal -->
+                                <div class="relative">
+                                    <label for="representante_legal" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                        <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
+                                        Representante Legal
+                                    </label>
+                                    <select id="representante_legal" name="representante_legal" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                        <option value="">Seleccione...</option>
+                                        <option value="Johan Ordoñez" @if(old('representante_legal')=='Johan Ordoñez') selected @endif>Johan Ordoñez</option>
+                                    </select>
+                                    @error('representante_legal')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                </div>
 
                                 <!-- Teléfono -->
                                 <div class="relative">
@@ -202,48 +200,30 @@
                                         <i class="fas fa-mobile-alt mr-2 text-[#00796B]"></i>
                                         Teléfono
                                     </label>
-                                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}"
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                    @error('telefono')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
                             </div>
                         </div>
 
                         <!-- Documentos -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-                            @foreach (['registro_comercio' => 'file-contract',
-                                     'licencia_funcionamiento' => 'file-invoice-dollar',
-                                     'registro_sanitario' => 'file-medical'] as $field => $icon)
-                                <div class="relative group">
-                                    <label for="{{ $field }}" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-{{ $icon }} mr-2 text-[#00796B]"></i>
-                                        {{ ucfirst(str_replace('_', ' ', $field)) }}
-                                    </label>
-                                    <div class="relative cursor-pointer">
-                                        <input type="file" id="{{ $field }}" name="{{ $field }}" accept="application/pdf"
-                                            class="w-full opacity-0 absolute inset-0 z-20 cursor-pointer">
-                                        <div class="h-32 border-2 border-dashed border-[#B2DFDB] rounded-lg group-hover:border-[#00796B] transition-colors flex items-center justify-center bg-[#E0F2F1]/30">
-                                            <div class="text-center">
-                                                <i class="fas fa-cloud-upload-alt text-[#00796B] text-2xl mb-2"></i>
-                                                <p class="text-sm text-[#004D40] font-medium">Subir PDF</p>
-                                            </div>
-                                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">@foreach(['registro_comercio'=>'file-contract','licencia_funcionamiento'=>'file-invoice-dollar','registro_sanitario'=>'file-medical'] as $field=>$icon)
+                            <div class="relative group">
+                                <label for="{{ $field }}" class="block text-sm font-semibold text-[#004D40] mb-2"><i class="fas fa-{{ $icon }} mr-2 text-[#00796B]"></i>{{ ucfirst(str_replace('_',' ',$field)) }}</label>
+                                <div class="relative cursor-pointer">
+                                    <input type="file" id="{{ $field }}" name="{{ $field }}" accept="application/pdf" required class="w-full opacity-0 absolute inset-0 z-20 cursor-pointer">
+                                    <div class="h-32 border-2 border-dashed border-[#B2DFDB] rounded-lg group-hover:border-[#00796B] transition-colors flex items-center justify-center bg-[#E0F2F1]/30">
+                                        <div class="text-center"><i class="fas fa-cloud-upload-alt text-[#00796B] text-2xl mb-2"></i><p class="text-sm text-[#004D40] font-medium">Subir PDF</p></div>
                                     </div>
                                 </div>
-                            @endforeach
+                                @error($field)<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                            </div>@endforeach
                         </div>
 
                         <!-- Botones -->
                         <div class="flex flex-col md:flex-row justify-end gap-4 pt-8">
-                            <button type="submit"
-                                class="px-8 py-3 bg-gradient-to-r from-[#00796B] to-[#004D40] text-white rounded-lg hover:from-[#004D40] hover:to-[#00332B] transition-all shadow-md hover:shadow-lg flex items-center justify-center">
-                                <i class="fas fa-paper-plane mr-2"></i>
-                                Enviar Solicitud
-                            </button>
-                            <a href="{{ url()->previous() }}"
-                                class="px-8 py-3 bg-[#B2DFDB] hover:bg-[#80CBC4] text-[#004D40] rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center justify-center">
-                                <i class="fas fa-times mr-2"></i>
-                                Cancelar
-                            </a>
+                            <button type="submit" class="px-8 py-3 bg-gradient-to-r from-[#00796B] to-[#004D40] text-white rounded-lg hover:from-[#004D40] hover:to-[#00332B] transition-all shadow-md hover:shadow-lg flex items-center justify-center"><i class="fas fa-paper-plane mr-2"></i>Enviar Solicitud</button>
+                            <a href="{{ url()->previous() }}" class="px-8 py-3 bg-[#B2DFDB] hover:bg-[#80CBC4] text-[#004D40] rounded-lg transition-colors shadow-md hover:shadow-lg flex items-center justify-center"><i class="fas fa-times mr-2"></i>Cancelar</a>
                         </div>
                     </form>
                 </div>

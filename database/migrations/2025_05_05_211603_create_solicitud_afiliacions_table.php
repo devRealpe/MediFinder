@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('solicitud_afiliacions', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_farmacia');
+            $table->string('nombre_farmacia')->unique();
             $table->string('departamento');
             $table->string('direccion');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('nit')->unique();
             $table->string('ciudad');
             $table->string('telefono');

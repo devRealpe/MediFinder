@@ -16,7 +16,7 @@ class SolicitudAfiliacionController extends Controller
     {
         // 1. Regla de validación básica
         $rules = [
-            'nombre_farmacia'           => 'required|string|max:255',
+            'nombre_farmacia'           => 'required|string|max:255|unique:solicitud_afiliacions,nombre_farmacia',
             'departamento'              => 'required',
             'direccion'                 => 'required|string',
             'email'                     => 'required|email',
@@ -31,6 +31,7 @@ class SolicitudAfiliacionController extends Controller
 
         $messages = [
             'required' => 'Este campo es obligatorio.',
+            'nombre_farmacia.unique' => 'Ya existe una solicitud con ese nombre de farmacia.',
             'nit.unique' => 'Ya existe una solicitud con ese NIT.',
             'mimes' => 'El documento debe estar en formato PDF.',
         ];
