@@ -106,130 +106,156 @@
                     <form action="{{ route('solicitud.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                         @csrf
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <!-- Columna Izquierda -->
-                            <div class="space-y-6">
-                                <!-- Nombre de la farmacia -->
-                                <div class="relative">
-                                    <label for="nombre_farmacia" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-prescription-bottle mr-2 text-[#00796B]"></i>
-                                        Nombre de la farmacia
-                                    </label>
-                                    <input type="text" id="nombre_farmacia" name="nombre_farmacia" value="{{ old('nombre_farmacia') }}" required
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('nombre_farmacia')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
-
-                                  <!-- Ciudad -->
-                                <div class="relative">
-                                    <label for="ciudad" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-city mr-2 text-[#00796B]"></i>
-                                        Ciudad
-                                    </label>
-                                    <select id="ciudad" name="ciudad" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
-                                        <option value="">Seleccione ciudad...</option>
-                                        @foreach($ciudades as $c)
-                                          <option value="{{ $c->id }}" @selected(old('ciudad') == $c->id)>
-                                            {{ $c->nombre }}
-                                          </option>
-                                        @endforeach
-                                      </select>
-                                    @error('ciudad')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
-
-                                <!-- NIT -->
-                                <div class="relative">
-                                    <label for="nit" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-fingerprint mr-2 text-[#00796B]"></i>
-                                        NIT
-                                    </label>
-                                    <input type="text" id="nit" name="nit" value="{{ old('nit') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('nit')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
-
-                                <!-- Email -->
-                                <div class="relative">
-                                    <label for="email" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-envelope-open-text mr-2 text-[#00796B]"></i>
-                                        Correo electrónico
-                                    </label>
-                                    <input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('email')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
-                            </div>
-
-                            <!-- Columna Derecha -->
-                            <div class="space-y-6">
-                                <!-- Dirección -->
-                                <div class="relative">
-                                    <label for="direccion" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-map-marker-alt mr-2 text-[#00796B]"></i>
-                                        Dirección
-                                    </label>
-                                    <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('direccion')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                                </div>
+                        <!-- Sección de Datos -->
+                        <div class="bg-[#E0F2F1]/30 p-6 rounded-xl border border-[#B2DFDB]">
+                            <h2 class="text-xl font-bold text-[#004D40] mb-6 flex items-center">
+                                <i class="fas fa-database mr-3 text-[#00796B]"></i>
+                                Información de la Farmacia
+                            </h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <!-- Columna Izquierda -->
+                                <div class="space-y-6">
+                                    <!-- Nombre de la farmacia -->
+                                    <div class="relative">
+                                        <label for="nombre_farmacia" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-prescription-bottle mr-2 text-[#00796B]"></i>
+                                            Nombre de la farmacia
+                                        </label>
+                                        <input type="text" id="nombre_farmacia" name="nombre_farmacia" value="{{ old('nombre_farmacia') }}" required
+                                            class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                        @error('nombre_farmacia')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
 
                                     <!-- Departamento -->
-                                <div class="relative">
-                                    <label for="departamento" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-map-marked-alt mr-2 text-[#00796B]"></i>
-                                        Departamento
-                                    </label>
-                                    <select id="departamento" name="departamento"
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
-                                        <option value="">Seleccione departamento...</option>
-                                        {{-- Se poblará con JS --}}
-                                    </select>
+                                    <div class="relative">
+                                        <label for="departamento" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-map-marked-alt mr-2 text-[#00796B]"></i>
+                                            Departamento
+                                        </label>
+                                        <select
+                                            id="departamento"
+                                            name="departamento"
+                                            required
+                                            class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none"
+                                        >
+                                            <option value="">Seleccione departamento...</option>
+                                            @foreach($departamentos as $dep)
+                                                <option value="{{ $dep->id }}" @selected(old('departamento') == $dep->id)>
+                                                    {{ $dep->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('departamento')
+                                            <p class="mt-2 text-sm text-red-600 flex items-center">
+                                                <i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}
+                                            </p>
+                                        @enderror
+                                    </div>
+
+
+                                    <!-- NIT -->
+                                    <div class="relative">
+                                        <label for="nit" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-fingerprint mr-2 text-[#00796B]"></i>
+                                            NIT
+                                        </label>
+                                        <input type="text" id="nit" name="nit" value="{{ old('nit') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                        @error('nit')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="relative">
+                                        <label for="email" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-envelope-open-text mr-2 text-[#00796B]"></i>
+                                            Correo electrónico
+                                        </label>
+                                        <input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                        @error('email')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
                                 </div>
 
-                                <!-- Representante Legal -->
-                                <div class="relative">
-                                    <label for="representante_legal" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                      <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
-                                      Representante Legal
-                                    </label>
-                                    <select id="representante_legal" name="representante_legal" required
-                                        class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
-                                      <option value="">Seleccione...</option>
-                                      @foreach($representantes as $r)
-                                        <option value="{{ $r->id }}" @selected(old('representante_legal') == $r->id)>
-                                          {{ $r->nombre }}
-                                        </option>
-                                      @endforeach
-                                    </select>
-                                    @error('representante_legal')
-                                      <p class="mt-2 text-sm text-red-600 flex items-center">
-                                        <i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}
-                                      </p>
-                                    @enderror
-                                  </div>
-                                  
+                                <!-- Columna Derecha -->
+                                <div class="space-y-6">
+                                    <!-- Dirección -->
+                                    <div class="relative">
+                                        <label for="direccion" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-map-marker-alt mr-2 text-[#00796B]"></i>
+                                            Dirección
+                                        </label>
+                                        <input type="text" id="direccion" name="direccion" value="{{ old('direccion') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                        @error('direccion')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
 
-                                <!-- Teléfono -->
-                                <div class="relative">
-                                    <label for="telefono" class="block text-sm font-semibold text-[#004D40] mb-2">
-                                        <i class="fas fa-mobile-alt mr-2 text-[#00796B]"></i>
-                                        Teléfono
-                                    </label>
-                                    <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
-                                    @error('telefono')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                      <!-- Ciudad -->
+                                      <div class="relative">
+                                        <label for="ciudad" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-city mr-2 text-[#00796B]"></i>
+                                            Ciudad
+                                        </label>
+                                        <select id="ciudad" name="ciudad" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                            <option value="">Seleccione ciudad...</option>
+                                          </select>
+                                        @error('ciudad')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
+
+                                    <!-- Representante Legal -->
+                                    <div class="relative">
+                                        <label for="representante_legal" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                          <i class="fas fa-user-tie mr-2 text-[#00796B]"></i>
+                                          Representante Legal
+                                        </label>
+                                        <select id="representante_legal" name="representante_legal" required
+                                            class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus bg-select-arrow appearance-none">
+                                          <option value="">Seleccione...</option>
+                                          @foreach($representantes as $r)
+                                            <option value="{{ $r->id }}" @selected(old('representante_legal') == $r->id)>
+                                              {{ $r->nombre }}
+                                            </option>
+                                          @endforeach
+                                        </select>
+                                        @error('representante_legal')
+                                          <p class="mt-2 text-sm text-red-600 flex items-center">
+                                            <i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}
+                                          </p>
+                                        @enderror
+                                      </div>
+                                      
+
+                                    <!-- Teléfono -->
+                                    <div class="relative">
+                                        <label for="telefono" class="block text-sm font-semibold text-[#004D40] mb-2">
+                                            <i class="fas fa-mobile-alt mr-2 text-[#00796B]"></i>
+                                            Teléfono
+                                        </label>
+                                        <input type="tel" id="telefono" name="telefono" value="{{ old('telefono') }}" required class="w-full px-4 py-3 border-2 border-[#B2DFDB] rounded-lg focus:input-focus placeholder-[#80CBC4]">
+                                        @error('telefono')<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Documentos -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">@foreach(['registro_comercio'=>'file-contract','licencia_funcionamiento'=>'file-invoice-dollar','registro_sanitario'=>'file-medical'] as $field=>$icon)
-                            <div class="relative group">
-                                <label for="{{ $field }}" class="block text-sm font-semibold text-[#004D40] mb-2"><i class="fas fa-{{ $icon }} mr-2 text-[#00796B]"></i>{{ ucfirst(str_replace('_',' ',$field)) }}</label>
-                                <div class="relative cursor-pointer">
-                                    <input type="file" id="{{ $field }}" name="{{ $field }}" accept="application/pdf" required class="w-full opacity-0 absolute inset-0 z-20 cursor-pointer">
-                                    <div class="h-32 border-2 border-dashed border-[#B2DFDB] rounded-lg group-hover:border-[#00796B] transition-colors flex items-center justify-center bg-[#E0F2F1]/30">
-                                        <div class="text-center"><i class="fas fa-cloud-upload-alt text-[#00796B] text-2xl mb-2"></i><p class="text-sm text-[#004D40] font-medium">Subir PDF</p></div>
+                        <!-- Sección de Documentos -->
+                        <div class="bg-[#E0F2F1]/30 p-6 rounded-xl border border-[#B2DFDB]">
+                            <h2 class="text-xl font-bold text-[#004D40] mb-6 flex items-center">
+                                <i class="fas fa-file-upload mr-3 text-[#00796B]"></i>
+                                Documentos Requeridos
+                            </h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                @foreach(['registro_comercio'=>'file-contract','licencia_funcionamiento'=>'file-invoice-dollar','registro_sanitario'=>'file-medical'] as $field=>$icon)
+                                <div class="relative group">
+                                    <label for="{{ $field }}" class="block text-sm font-semibold text-[#004D40] mb-2"><i class="fas fa-{{ $icon }} mr-2 text-[#00796B]"></i>{{ ucfirst(str_replace('_',' ',$field)) }}</label>
+                                    <div class="relative cursor-pointer">
+                                        <input type="file" id="{{ $field }}" name="{{ $field }}" accept="application/pdf" required class="w-full opacity-0 absolute inset-0 z-20 cursor-pointer">
+                                        <div class="h-32 border-2 border-dashed border-[#B2DFDB] rounded-lg group-hover:border-[#00796B] transition-colors flex items-center justify-center bg-[#E0F2F1]/30">
+                                            <div class="text-center"><i class="fas fa-cloud-upload-alt text-[#00796B] text-2xl mb-2"></i><p class="text-sm text-[#004D40] font-medium">Subir PDF</p></div>
+                                        </div>
                                     </div>
+                                    @error($field)<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
                                 </div>
-                                @error($field)<p class="mt-2 text-sm text-red-600 flex items-center"><i class="fas fa-exclamation-circle mr-2"></i>{{ $message }}</p>@enderror
-                            </div>@endforeach
+                                @endforeach
+                            </div>
                         </div>
 
                         <!-- Botones -->
@@ -244,26 +270,27 @@
     </main>
 
     <script>
-        document.getElementById('ciudad').addEventListener('change', function() {
-          const ciudadId = this.value;
-          const deptoSelect = document.getElementById('departamento');
-          deptoSelect.innerHTML = '<option value="">Cargando...</option>';
-          fetch(`/api/ciudad/${ciudadId}/departamentos`)
+        document.getElementById('departamento').addEventListener('change', function() {
+          const deptoId = this.value;
+          const ciudadSelect = document.getElementById('ciudad');
+          ciudadSelect.innerHTML = '<option value="">Cargando...</option>';
+          fetch(`/api/departamento/${deptoId}/ciudades`)
             .then(res => res.json())
-            .then(departamentos => {
-              deptoSelect.innerHTML = '<option value="">Seleccione departamento...</option>';
-              departamentos.forEach(d => {
-                let opt = document.createElement('option');
-                opt.value = d.id;
-                opt.textContent = d.nombre;
-                deptoSelect.appendChild(opt);
+            .then(ciudades => {
+              ciudadSelect.innerHTML = '<option value="">Seleccione ciudad...</option>';
+              ciudades.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.id;
+                opt.textContent = c.nombre;
+                ciudadSelect.appendChild(opt);
               });
             })
             .catch(() => {
-              deptoSelect.innerHTML = '<option value="">Error cargando</option>';
+              ciudadSelect.innerHTML = '<option value="">Error al cargar ciudades</option>';
             });
         });
       </script>
+      
       
 </body>
 </html>

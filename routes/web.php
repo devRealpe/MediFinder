@@ -20,4 +20,4 @@ Route::prefix('solicitud-afiliacion')->name('solicitud.')->group(function () {
 });
 
 // Endpoint AJAX para cargar departamentos según ciudad
-Route::get('api/ciudad/{id}/departamentos', [FiltroController::class, 'departamentosPorCiudad']);
+Route::get('api/departamento/{id}/ciudades', [FiltroController::class, 'ciudadesPorDepartamento']);

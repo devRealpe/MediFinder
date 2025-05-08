@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ciudad;
-use Illuminate\Http\Request;
+use App\Models\Departamento;
+use Illuminate\Http\JsonResponse;
 
 class FiltroController extends Controller
 {
-    public function departamentosPorCiudad($id)
+    public function ciudadesPorDepartamento(int $id): JsonResponse
     {
-        $ciudad = Ciudad::findOrFail($id);
-        return response()->json($ciudad->departamentos);
+        $departamento = Departamento::with('ciudades')->findOrFail($id);
+        return response()->json($departamento->ciudades);
     }
 }

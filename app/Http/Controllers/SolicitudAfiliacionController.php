@@ -12,15 +12,13 @@ class SolicitudAfiliacionController extends Controller
 {
     public function create()
     {
-        $ciudades       = Ciudad::all();
         $departamentos  = Departamento::all();
-        $representantes = RepresentanteLegal::all();  // <— aquí!
-
+        $representantes = RepresentanteLegal::all();  // <— aquí
 
         return view('solicitud.create', compact(
-            'ciudades',
             'departamentos',
-            'representantes'
+            'representantes',
+            //,'ciudades'
         ));
     }
 

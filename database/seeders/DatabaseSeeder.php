@@ -7,19 +7,24 @@ use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Llamada a los seeders de datos maestros
+        // 1. Primero sembrar departamentos
+        $this->call([
+            DepartamentoSeeder::class,
+        ]);
+
+        // 2. Luego sembrar ciudades que dependen de departamentos
         $this->call([
             CiudadSeeder::class,
-            DepartamentoSeeder::class,
+        ]);
+
+        // 3. Sembrar el resto
+        $this->call([
             RepresentanteLegalSeeder::class,
         ]);
 
-        // Usuario de prueba
+        // 4. Finalmente, el usuario de prueba
         User::factory()->create([
             'name'  => 'Test User',
             'email' => 'test@example.com',

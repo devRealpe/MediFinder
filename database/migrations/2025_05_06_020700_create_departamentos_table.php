@@ -9,14 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('departamentos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->foreignId('ciudad_id')
-                ->constrained('ciudades')
-                ->onDelete('cascade');
+            $table->string('nombre')->unique();
             $table->timestamps();
         });
     }

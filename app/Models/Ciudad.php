@@ -6,18 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ciudad extends Model
 {
-    /**
-     * La tabla asociada al modelo.
-     *
-     * @var string
-     */
-    protected $table = 'ciudades';  // Laravel usará 'ciudades' en lugar de 'ciudads'
+    protected $table = 'ciudades';
 
-    /**
-     * Relación: una ciudad tiene muchos departamentos.
-     */
-    public function departamentos()
+    // Una ciudad pertenece a un departamento
+    public function departamento()
     {
-        return $this->hasMany(Departamento::class);
+        return $this->belongsTo(Departamento::class);
     }
 }

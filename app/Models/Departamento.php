@@ -6,8 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Departamento extends Model
 {
-    public function ciudad()
+    protected $table = 'departamentos';
+
+    // Un departamento tiene muchas ciudades
+    public function ciudades()
     {
-        return $this->belongsTo(Ciudad::class);
+        return $this->hasMany(Ciudad::class);
     }
 }
